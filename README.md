@@ -1,6 +1,6 @@
-> # mail-spring-boot-starter(JDK 1.8)
+> # s3-spring-boot-starter(JDK 1.8)
 
-### 快速配置邮件发送模块
+### 快速配置S3模块
 
 - 引入maven坐标
   ```xml
@@ -17,11 +17,4 @@
   crabapples.oss.secretKey
   crabapples.oss.bucketName
   crabapples.oss.region
-  ```
-
-  ```
-  @Autowired MailService mailService
-  Multipart multipart = new MultipartBuilder().addContent().build();
-  String [] target = {"xxxx@qq.com"};
-  boolean status = mailService.sendEmail(multipart,"title",target);
   ```
