@@ -41,8 +41,14 @@ public class S3ServiceImpl implements S3Service {
     private S3Client s3Client = null;
     private S3Presigner s3Presigner = null;
 
-    public S3Client getS3Client() {
+    @Override
+    public S3Client getClient() {
         return s3Client;
+    }
+
+    @Override
+    public S3ConfigProperties getConfig() {
+        return config;
     }
 
 

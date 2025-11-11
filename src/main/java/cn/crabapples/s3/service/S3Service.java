@@ -1,8 +1,10 @@
 package cn.crabapples.s3.service;
 
+import cn.crabapples.s3.config.S3ConfigProperties;
 import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequest;
@@ -11,6 +13,10 @@ import java.time.temporal.TemporalUnit;
 import java.util.List;
 
 public interface S3Service {
+    S3Client getClient();
+
+    S3ConfigProperties getConfig();
+
     /**
      * 初始化S3服务
      */

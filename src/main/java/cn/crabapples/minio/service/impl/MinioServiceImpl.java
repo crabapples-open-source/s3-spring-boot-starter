@@ -8,16 +8,13 @@ import io.minio.messages.Bucket;
 import io.minio.messages.DeleteError;
 import io.minio.messages.DeleteObject;
 import io.minio.messages.Item;
-import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import software.amazon.awssdk.utils.Md5Utils;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -29,6 +26,12 @@ public class MinioServiceImpl implements MinioService {
     private final MinioConfigProperties config;
     private MinioClient minioClient;
 
+    @Override
+    public MinioConfigProperties getConfig() {
+        return config;
+    }
+
+    @Override
     public MinioClient getClient() {
         return minioClient;
     }
@@ -50,6 +53,7 @@ public class MinioServiceImpl implements MinioService {
         return minioClient;
     }
 
+    @Override
     public List<Bucket> listBuckets() {
         try {
             return minioClient.listBuckets();
@@ -58,10 +62,12 @@ public class MinioServiceImpl implements MinioService {
         }
     }
 
+    @Override
     public void createBucket() {
         createBucket(config.getBucketName());
     }
 
+    @Override
     public void createBucket(String bucket) {
         try {
             minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
@@ -70,10 +76,12 @@ public class MinioServiceImpl implements MinioService {
         }
     }
 
+    @Override
     public void removeBucket() {
         removeBucket(config.getBucketName());
     }
 
+    @Override
     public void removeBucket(String bucket) {
         try {
             minioClient.removeBucket(RemoveBucketArgs.builder().bucket(bucket).build());
@@ -82,10 +90,12 @@ public class MinioServiceImpl implements MinioService {
         }
     }
 
+    @Override
     public ObjectWriteResponse uploadFile(String fileName, String path) {
         return uploadFile(config.getBucketName(), fileName, path);
     }
 
+    @Override
     public ObjectWriteResponse uploadFile(String bucket, String fileName, String path) {
         logger.debug("开始上传文件到Minio:[{}]", fileName);
         try {
@@ -97,15 +107,18 @@ public class MinioServiceImpl implements MinioService {
             ObjectWriteResponse objectWriteResponse = minioClient.uploadObject(args);
             return objectWriteResponse;
         } catch (Exception e) {
-            throw new RuntimeException("文件上传失败", e);
+            logger.error("文件上传失败", e);
+            throw new RuntimeException(e);
         }
     }
 
 
+    @Override
     public ObjectWriteResponse uploadFile(String fileName, InputStream inputStream) {
         return uploadFile(config.getBucketName(), fileName, inputStream);
     }
 
+    @Override
     public ObjectWriteResponse uploadFile(String bucket, String fileName, InputStream inputStream) {
         logger.debug("开始上传文件到Minio:[{}]", fileName);
         try {
@@ -122,10 +135,12 @@ public class MinioServiceImpl implements MinioService {
         }
     }
 
+    @Override
     public void downloadAsStream(String fileName, OutputStream outputStream) {
         downloadAsStream(config.getBucketName(), fileName, outputStream);
     }
 
+    @Override
     public void downloadAsStream(String bucket, String fileName, OutputStream outputStream) {
         logger.debug("开始从Minio下载文件:[{}]", fileName);
         try (BufferedOutputStream stream = new BufferedOutputStream(outputStream)) {
@@ -143,10 +158,12 @@ public class MinioServiceImpl implements MinioService {
         }
     }
 
+    @Override
     public GetObjectResponse downloadFile(String fileName) {
         return downloadFile(config.getBucketName(), fileName);
     }
 
+    @Override
     public GetObjectResponse downloadFile(String bucket, String fileName) {
         logger.debug("开始从Minio下载文件:[{}]", fileName);
         try {
@@ -160,19 +177,22 @@ public class MinioServiceImpl implements MinioService {
         }
     }
 
-
+    @Override
     public String createTempDownloadUrl(String fileName) {
         return createTempDownloadUrl(fileName, 30, TimeUnit.MINUTES);
     }
 
+    @Override
     public String createTempDownloadUrl(String bucket, String fileName) {
         return createTempDownloadUrl(bucket, fileName, 30, TimeUnit.MINUTES);
     }
 
+    @Override
     public String createTempDownloadUrl(String fileName, int time, TimeUnit unit) {
         return createTempDownloadUrl(config.getBucketName(), fileName, time, unit);
     }
 
+    @Override
     public String createTempDownloadUrl(String bucket, String fileName, int time, TimeUnit unit) {
         try {
             logger.debug("开始从Minio获取文件分享连接:[{}]", fileName);
@@ -190,10 +210,12 @@ public class MinioServiceImpl implements MinioService {
         }
     }
 
+    @Override
     public void remove(String fileName) {
         remove(config.getBucketName(), fileName);
     }
 
+    @Override
     public void remove(String bucket, String fileName) {
         try {
             logger.debug("开始从Minio删除文件:[{}]", fileName);
@@ -214,18 +236,12 @@ public class MinioServiceImpl implements MinioService {
      * @param uploadId uploadId
      * @param index    分片索引
      */
+    @Override
     public void multipartUpload(byte[] data, String uploadId, int index) {
         multipartUpload(config.getBucketName(), data, uploadId, index);
     }
 
-    /**
-     * 分片上传
-     *
-     * @param bucket   bucket
-     * @param data     文件数据
-     * @param uploadId uploadId
-     * @param index    分片索引
-     */
+    @Override
     public void multipartUpload(String bucket, byte[] data, String uploadId, int index) {
         logger.debug("开始上传Minio分片文件:[{}],index:[{}]", uploadId, index);
         try {
@@ -241,10 +257,12 @@ public class MinioServiceImpl implements MinioService {
         }
     }
 
+    @Override
     public void mergeMultipart(String fileName, String uploadId) {
         mergeMultipart(config.getBucketName(), fileName, uploadId);
     }
 
+    @Override
     public void mergeMultipart(String bucket, String fileName, String uploadId) {
         try {
             Iterable<Result<Item>> results = minioClient.listObjects(
