@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cn.crabapples.s3.S3AutoConfiguration
+  cn.crabapples.S3AutoConfiguration,\
+  cn.crabapples.MinioAutoConfiguration

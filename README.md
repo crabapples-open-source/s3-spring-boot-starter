@@ -1,20 +1,27 @@
-> # s3-spring-boot-starter(JDK 1.8)
+> # upload-spring-boot-starter(JDK 1.8)
 
-### 快速配置S3模块
+### 快速配置文件上传模块
 
 - 引入maven坐标
   ```xml
   <dependency>
     <groupId>cn.crabapples</groupId>
-    <artifactId>s3-spring-boot-starter</artifactId>
+    <artifactId>upload-spring-boot-starter</artifactId>
     <version>1.0.0</version>
   </dependency>
   ```
-- 填写相关配置(application.properties)
+- 填写相关配置(s3)
   ```properties
-  crabapples.oss.url
-  crabapples.oss.accessKey
-  crabapples.oss.secretKey
-  crabapples.oss.bucketName
-  crabapples.oss.region
+  crabapples.upload.s3.url
+  crabapples.upload.s3.accessKey
+  crabapples.upload.s3.secretKey
+  crabapples.upload.s3.bucketName
+  crabapples.upload.s3.region
+  ```
+- 填写相关配置(minio)
+  ```properties
+  crabapples.upload.minio.url
+  crabapples.upload.minio.accessKey
+  crabapples.upload.minio.secretKey
+  crabapples.upload.minio.bucketName
   ```

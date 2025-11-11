@@ -9,14 +9,25 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cn.crabapples</groupId>
-    <artifactId>s3-spring-boot-starter</artifactId>
+    <artifactId>upload-spring-boot-starter</artifactId>
     <version>1.0.0</version>
-    <name>s3-spring-boot-starter</name>
-    <description>s3-spring-boot-starter</description>
+    <name>upload-spring-boot-starter</name>
+    <description>upload-spring-boot-starter</description>
     <properties>
         <rustfs.version>2.25.27</rustfs.version>
+        <minio.version>8.4.3</minio.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>${minio.version}</version>
+        </dependency>
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>s3</artifactId>
@@ -87,19 +98,19 @@
                         </executions>
                     </plugin>
                     <!-- GPG -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.5</version>
-                        <executions>
-                            <execution>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-gpg-plugin</artifactId>-->
+<!--                        <version>1.5</version>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <phase>verify</phase>-->
+<!--                                <goals>-->
+<!--                                    <goal>sign</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
                     <!--Compiler-->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>

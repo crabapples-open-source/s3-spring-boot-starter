@@ -1,6 +1,6 @@
 package cn.crabapples.s3.service.impl;
 
-import cn.crabapples.s3.config.OssConfigProperties;
+import cn.crabapples.s3.config.S3ConfigProperties;
 import cn.crabapples.s3.service.S3Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,11 +30,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class S3ServiceImpl implements S3Service {
     private static final Logger logger = LoggerFactory.getLogger(S3ServiceImpl.class);
-    private final OssConfigProperties config;
+    private final S3ConfigProperties config;
     private final ConcurrentHashMap<String, List<CompletedPart>> multipartMap = new ConcurrentHashMap<>();
 
 
-    public S3ServiceImpl(OssConfigProperties config) {
+    public S3ServiceImpl(S3ConfigProperties config) {
         this.config = config;
     }
 

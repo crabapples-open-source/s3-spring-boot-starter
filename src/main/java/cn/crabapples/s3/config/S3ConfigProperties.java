@@ -2,8 +2,8 @@ package cn.crabapples.s3.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "crabapples.oss")
-public class OssConfigProperties {
+@ConfigurationProperties(prefix = "crabapples.upload.s3")
+public class S3ConfigProperties {
     private String accessKey;
     private String secretKey;
     private String bucketName;
